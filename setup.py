@@ -31,17 +31,17 @@ if sys.argv[-1] == 'publish':
 def read(f):
     return open(f, encoding='utf-8').read()
 
-with open('xmeller/__init__.py', 'r') as fd:
+with open('xmller/__init__.py', 'r') as fd:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
                         fd.read(), re.MULTILINE).group(1)
 
 
 setup(
-    name='xmeller',
+    name='xmller',
     version=version,
     author='Henrik Blidh',
     author_email='henrik.blidh@nedomkull.com',
-    url='https://github.com/hbldh/xmeller',
+    url='https://github.com/hbldh/xmller',
     description='Agnostic XML parsing library for very large files',
     long_description=read('README.md'),
     license='MIT',

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-xmeller.parse
+xmller.parse
 ~~~~~~~~~~~~~
 
 :copyright: 2016 by Henrik Blidh <henrik.blidh@nedomkull.com>
@@ -17,7 +17,7 @@ from operator import setitem
 
 import xml.etree.ElementTree as etree
 
-from xmeller.compat import *
+from xmller.compat import *
 
 
 def xmlparse(document_path):

@@ -1,4 +1,4 @@
-# XMeller
+# XMLler
 
 [![Build Status](https://travis-ci.org/hbldh/xmeller.svg?branch=master)](https://travis-ci.org/hbldh/xmeller)
 [![Coverage Status](https://coveralls.io/repos/github/hbldh/xmeller/badge.svg?branch=master)](https://coveralls.io/github/hbldh/xmeller?branch=master)
@@ -8,7 +8,7 @@ Python dict representation. The agnostic part of it is this library provides
 a one way trip; there is no bijectional relation with the XML source 
 after parsing.
  
-**XMeller** also uses an iterative handling of XML documents, inspired by the
+**XMLler** also uses an iterative handling of XML documents, inspired by the
 solutions described in \[1\] and \[2\], enabling the parsing of very 
 large documents (~1 GB) without problems with overtaxing the memory.
 
@@ -18,13 +18,13 @@ large documents (~1 GB) without problems with overtaxing the memory.
 ## Installation
 
 ```
-pip install git+https://www.github.com/hbldh/xmeller
+pip install git+https://www.github.com/hbldh/xmller
 ```
 
 ## Usage
  
 ```python
-from xmeller import xmlparse
+from xmller import xmlparse
 
 doc = xmlparse('very_large_doc.xml')
 

@@ -21,8 +21,8 @@ from xml.etree.ElementTree import ParseError
 
 import pytest
 
-from xmeller import xmlparse
-from xmeller.compat import *
+from xmller import xmlparse
+from xmller.compat import *
 
 if sys.version_info[0] > 2:
     from urllib.request import urlopen

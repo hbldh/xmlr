@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-xmeller.compat
+xmller.compat
 ~~~~~~~~~~~~~~
 
 XMeller compatiblity module.

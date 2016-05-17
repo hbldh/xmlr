@@ -1,5 +1,8 @@
 # XMeller
 
+[![Build Status](https://travis-ci.org/hbldh/xmeller.svg?branch=master)](https://travis-ci.org/hbldh/xmeller)
+[![Coverage Status](https://coveralls.io/repos/github/hbldh/xmeller/badge.svg?branch=master)](https://coveralls.io/github/hbldh/xmeller?branch=master)
+
 An agnostic XML library, reading XML documents into 
 Python dict representation. The agnostic part of it is this library provides
 a one way trip; there is no bijectional relation with the XML source 

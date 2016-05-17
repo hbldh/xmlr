@@ -22,6 +22,7 @@ from xml.etree.ElementTree import ParseError
 import pytest
 
 from xmeller import xmlparse
+from xmeller.compat import *
 
 if sys.version_info[0] > 2:
     from urllib.request import urlopen
@@ -66,17 +67,19 @@ def test_parsing(xmldata):
         doc = xmlparse(xmlfile)
 
         def walk_test(node):
-            for key, item in node.items():
-                if isinstance(item, dict):
-                    walk_test(item)
-                elif isinstance(item, list):
-                    for listitem in item:
-                        if isinstance(listitem, dict):
-                            walk_test(listitem)
+            for key, dict_item in node.items():
+                if isinstance(dict_item, dict):
+                    walk_test(dict_item)
+                elif isinstance(dict_item, list):
+                    for list_item in dict_item:
+                        if isinstance(list_item, dict):
+                            walk_test(list_item)
                         else:
-                            assert isinstance(listitem, basestring) or listitem is None
+                            assert isinstance(list_item, basestring) or \
+                                   list_item is None
                 else:
-                    assert isinstance(item, basestring) or listitem is None
+                    assert isinstance(dict_item, basestring) or \
+                           list_item is None
 
         assert isinstance(doc, dict)
         walk_test(doc)

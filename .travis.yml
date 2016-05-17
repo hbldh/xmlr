@@ -1,0 +1,25 @@
+language: python
+sudo: false
+python:
+  - 2.6
+  - 2.7
+  - 3.3
+  - 3.4
+  - 3.5
+  - "nightly"
+matrix:
+  allow_failures:
+    - python: 2.6
+    - python: "nightly"
+branches:
+  only:
+    - master
+    - develop
+install:
+  - "pip install pytest"
+  - "pip install pytest-cov"
+  - "pip install python-coveralls"
+  - "pip install -e ."
+script: py.test tests/ --cov xmeller --cov-report term-missing
+after_success:
+  - coveralls

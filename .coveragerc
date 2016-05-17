@@ -1,0 +1,8 @@
+[run]
+branch = True
+source = xmeller
+include = */xmeller/*
+omit =
+    */setup.py
+
+

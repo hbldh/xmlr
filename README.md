@@ -1,19 +1,25 @@
-# XMLler
+# xmller
 
-[![Build Status](https://travis-ci.org/hbldh/xmeller.svg?branch=master)](https://travis-ci.org/hbldh/xmeller)
-[![Coverage Status](https://coveralls.io/repos/github/hbldh/xmeller/badge.svg?branch=master)](https://coveralls.io/github/hbldh/xmeller?branch=master)
+[![Build Status](https://travis-ci.org/hbldh/xmller.svg?branch=master)](https://travis-ci.org/hbldh/xmller)
+[![Coverage Status](https://coveralls.io/repos/github/hbldh/xmller/badge.svg?branch=master)](https://coveralls.io/github/hbldh/xmller?branch=master)
 
-An agnostic XML library, reading XML documents into 
-Python dict representation. The agnostic part of it is this library provides
-a one way trip; there is no bijectional relation with the XML source 
-after parsing.
- 
-**XMLler** also uses an iterative handling of XML documents, inspired by the
+Large XML files (>> 10 MB) are problematic to handle. Using the `xml` module 
+in Python directly leads to huge memory overheads. Most often, these large XML 
+files are pure data files, storing highly structured data that have no 
+intrinsic need to be stored in XML.
+
+This package provides iterative methods for dealing with them, reading the 
+XML documents into Python dict representation instead, according to the 
+methodology specified in \[3\]. `xmller` is inspired by the
 solutions described in \[1\] and \[2\], enabling the parsing of very 
-large documents (~1 GB) without problems with overtaxing the memory.
+large documents without problems with overtaxing the memory. 
 
-> Note that this is MUCH slower than performing a regular 
-> `xml.etree.ElementTree.parse` and that is by design!
+#### Notes
+
+1. this package provides a one way trip; there is not necessarily a 
+   bijectional relation with the XML source after parsing.
+2. this package's methods are MUCH slower than performing a regular 
+   `xml.etree.ElementTree.parse` and that is by design!
 
 ## Installation
 
@@ -22,7 +28,9 @@ pip install git+https://www.github.com/hbldh/xmller
 ```
 
 ## Usage
- 
+
+To parse an entire document, use the `xmlparse` method:
+
 ```python
 from xmller import xmlparse
 
@@ -30,9 +38,13 @@ doc = xmlparse('very_large_doc.xml')
 
 ```
 
-No type conversion is performed right now. A field in the output dictionary
+An iterator, yielding elements of a specified type as they are parsed from
+the document is in the makings.
+
+No type conversion is performed right now. A value in the output dictionary
 can have the type `dict` (a subdocument), `list` (an array of similar 
-documents), `str` (a leaf or value) or `None` (empty XML leaf tag).
+documents), `str` (a leaf or value) or `None` (empty XML leaf tag). All keys
+are of the type `str`.
 
 ## References
 

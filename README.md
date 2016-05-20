@@ -16,10 +16,9 @@ large documents without problems with overtaxing the memory.
 
 #### Notes
 
-1. this package provides a one way trip; there is not necessarily a 
+   This package generally provides a one way trip; there is not necessarily a 
    bijectional relation with the XML source after parsing.
-2. this package's methods are MUCH slower than performing a regular 
-   `xml.etree.ElementTree.parse` and that is by design!
+
 
 ## Installation
 
@@ -38,8 +37,32 @@ doc = xmlparse('very_large_doc.xml')
 
 ```
 
-An iterator, yielding elements of a specified type as they are parsed from
-the document is in the makings.
+An iterator, `xmliter`, yielding elements of a specified type as they are parsed from
+the document is also present:
+
+```python
+from xmller import xmliter
+
+for d in xmliter('very_large_record.xml', 'Record'):
+    print(d)
+
+```
+
+The desired parser can also be specified. Available methods are:
+
+- `ELEMENTTREE` - Using the `xml.etree.ElementTree` solution.
+- `C_ELEMENTTREE` - Using the `xml.etree.cElementTree` solution.
+- `LXML_ELEMENTTREE` - Using the `lxml.etree` solution. Requires 
+  installation of the `lxml` package.
+
+```python
+from xmller import xmliter, XMLParsingMethods
+
+for d in xmliter('very_large_record.xml', 'Record', 
+        parser=XMLParsingMethods.ELEMENTTREE):
+    print(d)
+
+```
 
 No type conversion is performed right now. A value in the output dictionary
 can have the type `dict` (a subdocument), `list` (an array of similar 

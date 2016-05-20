@@ -18,7 +18,7 @@ from xml.etree import ElementTree as ET
 try:
     from xml.etree import cElementTree as CET
     _cet_available = True
-except:
+except ImportError:
     CET = ET
     _cet_available = False
 

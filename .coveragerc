@@ -5,4 +5,9 @@ include = */xmller/*
 omit =
     */setup.py
 
+[report]
+exclude_lines =
+    except ImportError
+    if is_py3:
+
 

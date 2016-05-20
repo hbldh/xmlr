@@ -18,6 +18,7 @@ import os
 import sys
 import tempfile
 from xml.etree.ElementTree import ParseError
+from xml.etree.cElementTree import ParseError as cParseError
 
 import pytest
 
@@ -61,7 +62,7 @@ def test_parsing(xmldata):
 
     xmlfile, is_error = xmldata
     if is_error:
-        with pytest.raises(ParseError):
+        with pytest.raises((ParseError, cParseError, )):
             xmlparse(xmlfile)
     else:
         doc = xmlparse(xmlfile)

@@ -15,8 +15,8 @@ from __future__ import absolute_import
 
 from operator import setitem
 
-from xmller import XMLParsingMethods
-from xmller.compat import *
+from .methods import XMLParsingMethods
+from .compat import *
 
 
 def xmliter(source, tagname, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
@@ -40,7 +40,7 @@ def xmliter(source, tagname, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
     :rtype: dict
 
     """
-    if parsing_method:
+    if parsing_method.__name__.startswith('lxml'):
         _is_lxml = True
     else:
         _is_lxml = False

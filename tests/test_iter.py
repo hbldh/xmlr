@@ -20,68 +20,64 @@ from lxml.etree import XMLSyntaxError
 
 import pytest
 
-from xmller import xmlparse, XMLParsingMethods
+from xmller import xmliter, XMLParsingMethods
 from xmller.compat import *
 
 from .fixtures import xmldata_note, xmldata_note_error, \
     xmldata_cd, xmldata_menu, xmldata_plants
 
 
-def _walk_test(node):
-    for key, dict_item in node.items():
-        if isinstance(dict_item, dict):
-            _walk_test(dict_item)
-        elif isinstance(dict_item, list):
-            for list_item in dict_item:
-                if isinstance(list_item, dict):
-                    _walk_test(list_item)
-                else:
-                    assert isinstance(list_item, basestring) or \
-                           list_item is None
-        else:
-            assert isinstance(dict_item, basestring) or \
-                   list_item is None
-
-
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
                                     XMLParsingMethods.C_ELEMENTTREE,
                                     XMLParsingMethods.LXML_ELEMENTTREE))
 def test_parsing_note(xmldata_note, parser):
-    doc = xmlparse(xmldata_note, parsing_method=parser)
-    assert isinstance(doc, dict)
-    _walk_test(doc)
+    docs = []
+    for doc in xmliter(xmldata_note, 'note', parsing_method=parser):
+        assert isinstance(doc, dict)
+        docs.append(doc)
+    assert len(docs)
 
 
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
                                     XMLParsingMethods.C_ELEMENTTREE,
                                     XMLParsingMethods.LXML_ELEMENTTREE))
 def test_parsing_note_error(xmldata_note_error, parser):
-    with pytest.raises((ParseError, cParseError, XMLSyntaxError)):
-        xmlparse(xmldata_note_error, parsing_method=parser)
+    with pytest.raises((ParseError, cParseError, XMLSyntaxError), parsing_method=parser):
+        for doc in xmliter(xmldata_note_error, 'note', parsing_method=parser):
+            pass
 
 
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
                                     XMLParsingMethods.C_ELEMENTTREE,
                                     XMLParsingMethods.LXML_ELEMENTTREE))
 def test_parsing_cd(xmldata_cd, parser):
-    doc = xmlparse(xmldata_cd, parsing_method=parser)
-    assert isinstance(doc, dict)
-    _walk_test(doc)
+    docs = []
+    for doc in xmliter(xmldata_cd, 'CD', parsing_method=parser):
+        assert isinstance(doc, dict)
+        docs.append(doc)
+    assert len(docs) == 26
 
 
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
                                     XMLParsingMethods.C_ELEMENTTREE,
                                     XMLParsingMethods.LXML_ELEMENTTREE))
 def test_parsing_plants(xmldata_plants, parser):
-    doc = xmlparse(xmldata_plants, parsing_method=parser)
-    assert isinstance(doc, dict)
-    _walk_test(doc)
+    docs = []
+    for doc in xmliter(xmldata_plants, 'PLANT', parsing_method=parser):
+        assert isinstance(doc, dict)
+        docs.append(doc)
+    assert len(docs) == 36
 
 
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
                                     XMLParsingMethods.C_ELEMENTTREE,
                                     XMLParsingMethods.LXML_ELEMENTTREE))
 def test_parsing_menu(xmldata_menu, parser):
-    doc = xmlparse(xmldata_menu, parsing_method=parser)
-    assert isinstance(doc, dict)
-    _walk_test(doc)
+    docs = []
+    for doc in xmliter(xmldata_menu, 'food', parsing_method=parser):
+        assert isinstance(doc, dict)
+        docs.append(doc)
+    assert len(docs) == 5
+
+
+

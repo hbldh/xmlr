@@ -20,6 +20,7 @@ install:
   - "pip install pytest"
   - "pip install pytest-cov"
   - "pip install python-coveralls"
+  - "pip install lxml"
   - "pip install -e ."
 script: py.test tests/ --cov xmller --cov-report term-missing
 after_success:

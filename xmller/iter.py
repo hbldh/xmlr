@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-xmller.parse
-~~~~~~~~~~~~~
+xmller.ĩter
+~~~~~~~~~~~
 
 :copyright: 2016 by Henrik Blidh <henrik.blidh@nedomkull.com>
 
@@ -19,18 +19,24 @@ from .methods import XMLParsingMethods
 from .compat import *
 
 
-def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
-    """Parses a XML document into a dictionary.
+def xmliter(source, tagname, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
+    """Iterates over a XML document and yields specified tags
+    in dictionary form.
+
+    This iteration method has a very small memory footprint as compared to
+    the :py:meth:`xmller.xmlparse` since it continuously discards all
+    processed data. It is therefore useful for traversing structured
+    XML where a known tag's members are desired.
 
     Details about how the XML is converted into this dictionary (json)
     representation is described in reference [3] in the README.
 
     :param str,file-like source: Either the path to a XML document to parse
         or a file-like object (with `read` attribute) containing an XML.
-    :param parsing_method: ElementTree implementation.
-        See :py:mod:`xmller.methods`. Uses the
-        :py:class:`xml.etree.cElementTree` as default.
-    :return: The parsed XML in dictionary representation.
+    :param bool use_cElementTree: States if :py:class:`xml.etree.cElementTree`
+        should be used. If set to `False` :py:class:`xml.etree.ElementTree`
+        is used instead.
+    :return: The desired tags parsed XML in dictionary representation.
     :rtype: dict
 
     """
@@ -39,8 +45,8 @@ def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
     else:
         _is_lxml = False
 
-    # This is the output dict.
-    output = {}
+    output = None
+    is_active = False
 
     # Keeping track of the depth and position to store data in.
     current_position = []
@@ -49,8 +55,11 @@ def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
     # Start iterating over the Element Tree.
     for event, elem in parsing_method.iterparse(
             source, events=(str('start'), str('end'))):
-        if event == 'start':
+        if (event == 'start') and ((elem.tag == tagname) or is_active):
             # Start of new tag.
+            if output is None:
+                output = {}
+                is_active = True
 
             # Extract the current endpoint so add the new element to it.
             tmp = output
@@ -79,7 +88,7 @@ def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
 
             # Set the position of the iteration to this element's tag name.
             current_position.append(elem.tag)
-        elif event == 'end':
+        elif (event == 'end') and ((elem.tag == tagname) or is_active):
             # End of a tag.
 
             # Extract the current endpoint's parent so we can handle
@@ -129,16 +138,26 @@ def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
                 elif nk == 0:
                     tmp[cp] = None
 
-            # Remove the outermost position and index, since we just finished
-            # handling that element.
-            current_position.pop()
-            current_index.pop()
+            if elem.tag == tagname:
+                # End of our desired tag.
+                # Finish up this document and yield it.
+                current_position = []
+                current_index = []
+                is_active = False
 
-            # Most important of all, release the element's memory allocations
-            # so we actually benefit from the iterative processing!
-            elem.clear()
-            if _is_lxml:
-                while elem.getprevious() is not None:
-                    del elem.getparent()[0]
+                yield output.get(tagname)
 
-    return output
+                output = None
+                elem.clear()
+            else:
+                # Remove the outermost position and index, since we just
+                # finished handling that element.
+                current_position.pop()
+                current_index.pop()
+
+                # Most important of all, release the element's memory
+                # allocations so we actually benefit from the
+                # iterative processing.
+                elem.clear()
+
+

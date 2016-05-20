@@ -4,7 +4,7 @@
 xmller.compat
 ~~~~~~~~~~~~~~
 
-XMeller compatiblity module.
+xmller compatiblity module.
 
 """
 

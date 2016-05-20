@@ -4,11 +4,13 @@
 import re
 
 from .parse import xmlparse
+from .iter import xmliter
+from .methods import XMLParsingMethods
 
-__all__ = ['xmlparse', ]
+__all__ = ['xmlparse', 'xmliter', 'XMLParsingMethods']
 
 # Version information.
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 version = __version__  # backwards compatibility name
 try:
     version_info = [int(x) if x.isdigit() else x for x in

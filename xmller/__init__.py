@@ -7,9 +7,7 @@ from .parse import xmlparse
 from .iter import xmliter
 from .methods import XMLParsingMethods
 
-
 __all__ = ['xmlparse', 'xmliter', 'XMLParsingMethods']
-
 
 # Version information.
 __version__ = '0.1.0'

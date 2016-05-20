@@ -47,8 +47,8 @@ def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
     current_index = []
 
     # Start iterating over the Element Tree.
-    for event, elem in parsing_method.iterparse(source, events=(b'start', b'end')):
-
+    for event, elem in parsing_method.iterparse(
+            source, events=(str('start'), str('end'))):
         if event == 'start':
             # Start of new tag.
 

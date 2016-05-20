@@ -53,8 +53,8 @@ def xmliter(source, tagname, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
     current_index = []
 
     # Start iterating over the Element Tree.
-    for event, elem in parsing_method.iterparse(source, events=(b'start', b'end')):
-
+    for event, elem in parsing_method.iterparse(
+            source, events=(str('start'), str('end'))):
         if (event == 'start') and ((elem.tag == tagname) or is_active):
             # Start of new tag.
             if output is None:

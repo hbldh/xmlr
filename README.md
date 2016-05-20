@@ -59,7 +59,7 @@ The desired parser can also be specified. Available methods are:
 from xmller import xmliter, XMLParsingMethods
 
 for d in xmliter('very_large_record.xml', 'Record', 
-        parser=XMLParsingMethods.ELEMENTTREE):
+        parser=XMLParsingMethods.LXML_ELEMENTTREE):
     print(d)
 
 ```
@@ -68,6 +68,29 @@ No type conversion is performed right now. A value in the output dictionary
 can have the type `dict` (a subdocument), `list` (an array of similar 
 documents), `str` (a leaf or value) or `None` (empty XML leaf tag). All keys
 are of the type `str`.
+
+### Tests
+
+Tests are run with `pytest`:
+
+```bash
+$ py.test tests/
+
+============================= test session starts ==============================
+platform linux2 -- Python 2.7.11+, pytest-2.9.1, py-1.4.31, pluggy-0.3.1
+rootdir: /home/hbldh/Repos/xmller, inifile: 
+collected 44 items 
+
+tests/test_iter.py ........................
+tests/test_methods.py ..
+tests/test_parsing.py ..................
+
+========================== 44 passed in 2.70 seconds ===========================
+```
+
+The tests fetches some XML documents from 
+[W3Schools XML tutorials](http://www.w3schools.com/xml/xml_examples.asp) and 
+also uses a bundled, slimmed down version of the document available at \[4\].
 
 ## References
 

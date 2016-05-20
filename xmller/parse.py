@@ -133,16 +133,3 @@ def xmlparse(source):
             elem.clear()
 
     return output
-
-
-def main():
-    import os
-
-    filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-        'data', 'google-renewals-all-20080624.xml')
-
-    doc = xmlparse(filepath)
-
-
-if __name__ == "__main__":
-    main()

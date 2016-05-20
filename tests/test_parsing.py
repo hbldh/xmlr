@@ -14,6 +14,8 @@ from __future__ import print_function
 from __future__ import unicode_literals
 from __future__ import absolute_import
 
+import os
+
 from xml.etree.ElementTree import ParseError
 from xml.etree.cElementTree import ParseError as cParseError
 from lxml.etree import XMLSyntaxError
@@ -40,7 +42,7 @@ def _walk_test(node):
                            list_item is None
         else:
             assert isinstance(dict_item, basestring) or \
-                   list_item is None
+                   dict_item is None
 
 
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
@@ -83,5 +85,15 @@ def test_parsing_plants(xmldata_plants, parser):
                                     XMLParsingMethods.LXML_ELEMENTTREE))
 def test_parsing_menu(xmldata_menu, parser):
     doc = xmlparse(xmldata_menu, parsing_method=parser)
+    assert isinstance(doc, dict)
+    _walk_test(doc)
+
+
+@pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
+                                    XMLParsingMethods.C_ELEMENTTREE,
+                                    XMLParsingMethods.LXML_ELEMENTTREE))
+def test_parsing_google_renewal_data(parser):
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'google-renewals-subset-20080624.xml')
+    doc = xmlparse(f, parsing_method=parser)
     assert isinstance(doc, dict)
     _walk_test(doc)

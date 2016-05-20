@@ -19,52 +19,88 @@ import timeit
 
 
 """
+Python 2.7
+--------
+
 xmller.xmlparse using xml.etree.ElementTree
-Time: 111.8283 s
+Time: 114.6762 s
 xmller.xmlparse using xml.etree.cElementTree
-Time: 51.4797 s
-xmller.xmlparse using lxml.etree.ElementTree
-Time: 51.7424 s
+Time: 51.9837 s
+xmller.xmlparse using lxml.etree
+Time: 53.6425 s
 xmller.xmliter using xml.etree.ElementTree
-Time: 111.4165 s
+Time: 117.9564 s
 xmller.xmliter using xml.etree.cElementTree
-Time: 51.1554 s
-xmller.xmliter using lxml.etree.ElementTree
-Time: 50.0234 s
+Time: 60.8914 s
+xmller.xmliter using lxml.etree
+Time: 48.2994 s
+
+
+Python 3.5
+--------
+
+xmller.xmlparse using xml.etree.ElementTree
+Time: 73.2584 s
+xmller.xmlparse using xml.etree.cElementTree
+Time: 72.6901 s
+xmller.xmlparse using lxml.etree
+Time: 53.3402 s
+xmller.xmliter using xml.etree.ElementTree
+Time: 71.5361 s
+xmller.xmliter using xml.etree.cElementTree
+Time: 72.6967 s
+xmller.xmliter using lxml.etree
+Time: 48.9455 s
 
 
 PyPy
 ----
 
 xmller.xmlparse using xml.etree.ElementTree
-Time: 39.7572 s
+Time: 42.3088 s
 xmller.xmlparse using xml.etree.cElementTree
-Time: 39.0134 s
+Time: 43.0353 s
+xmller.xmlparse using lxml.etree
+Time: 538.7466 s
 xmller.xmliter using xml.etree.ElementTree
-Time: 39.7219 s
+Time: 42.5941 s
 xmller.xmliter using xml.etree.cElementTree
-Time: 38.9378 s
-
+Time: 42.3841 s
+xmller.xmliter using lxml.etree
+Time: 271.5306 s
 
 
 """
 
 n = 1
 
+# xmlparse
+
 print ('xmller.xmlparse using xml.etree.ElementTree')
-t = timeit.timeit('xmlparse("/home/hbldh/Downloads/google-renewals-all-20080624.xml", False)', number=n, setup='from xmller import xmlparse')
+t = timeit.timeit('xmlparse("/home/hbldh/Downloads/google-renewals-all-20080624.xml", XMLParsingMethods.ELEMENTTREE)', number=n, setup='from xmller import xmlparse, XMLParsingMethods')
 print("Time: {0:.4f} s".format(t / n))
 
 print ('xmller.xmlparse using xml.etree.cElementTree')
-t = timeit.timeit('xmlparse("/home/hbldh/Downloads/google-renewals-all-20080624.xml", True)', number=n, setup='from xmller import xmlparse')
+t = timeit.timeit('xmlparse("/home/hbldh/Downloads/google-renewals-all-20080624.xml", XMLParsingMethods.C_ELEMENTTREE)', number=n, setup='from xmller import xmlparse, XMLParsingMethods')
 print("Time: {0:.4f} s".format(t / n))
 
+print ('xmller.xmlparse using lxml.etree')
+t = timeit.timeit('xmlparse("/home/hbldh/Downloads/google-renewals-all-20080624.xml", XMLParsingMethods.LXML_ELEMENTTREE)', number=n, setup='from xmller import xmlparse, XMLParsingMethods')
+print("Time: {0:.4f} s".format(t / n))
+
+# xmliter
+
 print ('xmller.xmliter using xml.etree.ElementTree')
-t = timeit.timeit('for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", False): docs.append(d)',
-                  number=n, setup='from xmller import xmliter; docs = []')
+t = timeit.timeit('for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", XMLParsingMethods.ELEMENTTREE): docs.append(d)',
+                  number=n, setup='from xmller import xmliter, XMLParsingMethods; docs = []')
 print("Time: {0:.4f} s".format(t / n))
 
 print ('xmller.xmliter using xml.etree.cElementTree')
-t = timeit.timeit('for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", True): docs.append(d)',
-                  number=n, setup='from xmller import xmliter; docs = []')
-print("Time: {0:.4f} s\n".format(t / n))
+t = timeit.timeit('for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", XMLParsingMethods.C_ELEMENTTREE): docs.append(d)',
+                  number=n, setup='from xmller import xmliter, XMLParsingMethods; docs = []')
+print("Time: {0:.4f} s".format(t / n))
+
+print ('xmller.xmliter using lxml.etree')
+t = timeit.timeit('for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", XMLParsingMethods.LXML_ELEMENTTREE): docs.append(d)',
+                  number=n, setup='from xmller import xmliter, XMLParsingMethods; docs = []')
+print("Time: {0:.4f} s".format(t / n))

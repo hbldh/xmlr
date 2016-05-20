@@ -14,6 +14,8 @@ from __future__ import print_function
 from __future__ import unicode_literals
 from __future__ import absolute_import
 
+import os
+
 from xml.etree.ElementTree import ParseError
 from xml.etree.cElementTree import ParseError as cParseError
 from lxml.etree import XMLSyntaxError
@@ -79,5 +81,40 @@ def test_parsing_menu(xmldata_menu, parser):
         docs.append(doc)
     assert len(docs) == 5
 
+@pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
+                                    XMLParsingMethods.C_ELEMENTTREE,
+                                    XMLParsingMethods.LXML_ELEMENTTREE))
+def test_parsing_google_renewal_data_1(parser):
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                     'google-renewals-subset-20080624.xml')
+    docs = []
+    for doc in xmliter(f, 'Record', parsing_method=parser):
+        assert isinstance(doc, dict)
+        docs.append(doc)
+    assert len(docs) == 4
 
 
+@pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
+                                    XMLParsingMethods.C_ELEMENTTREE,
+                                    XMLParsingMethods.LXML_ELEMENTTREE))
+def test_parsing_google_renewal_data_2(parser):
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                     'google-renewals-subset-20080624.xml')
+    docs = []
+    for doc in xmliter(f, 'Contrib', parsing_method=parser):
+        assert isinstance(doc, dict)
+        docs.append(doc)
+    assert len(docs) == 2
+
+
+@pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
+                                    XMLParsingMethods.C_ELEMENTTREE,
+                                    XMLParsingMethods.LXML_ELEMENTTREE))
+def test_parsing_google_renewal_data_3(parser):
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                     'google-renewals-subset-20080624.xml')
+    docs = []
+    for doc in xmliter(f, 'Copyright', parsing_method=parser):
+        assert isinstance(doc, dict)
+        docs.append(doc)
+    assert len(docs) == 64

@@ -15,13 +15,11 @@ from __future__ import absolute_import
 
 from operator import setitem
 
-import xml.etree.ElementTree as etree
-import xml.etree.cElementTree as cetree
-
+from xmller import XMLParsingMethods
 from xmller.compat import *
 
 
-def xmlparse(source, use_cElementTree=True):
+def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
     """Parses a XML document into a dictionary.
 
     Details about how the XML is converted into this dictionary (json)
@@ -29,18 +27,17 @@ def xmlparse(source, use_cElementTree=True):
 
     :param str,file-like source: Either the path to a XML document to parse
         or a file-like object (with `read` attribute) containing an XML.
-    :param bool use_cElementTree: States if :py:class:`xml.etree.cElementTree`
-        should be used. If set to `False` :py:class:`xml.etree.ElementTree`
-        is used instead.
+    :param parsing_method: ElementTree implementation.
+        See :py:mod:`xmller.methods`. Uses the
+        :py:class:`xml.etree.cElementTree` as default.
     :return: The parsed XML in dictionary representation.
     :rtype: dict
 
     """
-
-    if use_cElementTree:
-        et = cetree
+    if parsing_method:
+        _is_lxml = True
     else:
-        et = etree
+        _is_lxml = False
 
     # This is the output dict.
     output = {}
@@ -50,7 +47,7 @@ def xmlparse(source, use_cElementTree=True):
     current_index = []
 
     # Start iterating over the Element Tree.
-    for event, elem in et.iterparse(source, events=(b'start', b'end')):
+    for event, elem in parsing_method.iterparse(source, events=(b'start', b'end')):
 
         if event == 'start':
             # Start of new tag.
@@ -140,5 +137,8 @@ def xmlparse(source, use_cElementTree=True):
             # Most important of all, release the element's memory allocations
             # so we actually benefit from the iterative processing!
             elem.clear()
+            if _is_lxml:
+                while elem.getprevious() is not None:
+                    del elem.getparent()[0]
 
     return output

@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-:mod:`iter`
-=======================
+xmller.ĩter
+~~~~~~~~~~~
 
-.. moduleauthor:: hbldh <henrik.blidh@swedwise.com>
-Created on 2016-05-20, 12:58
+:copyright: 2016 by Henrik Blidh <henrik.blidh@nedomkull.com>
 
 """
 
@@ -16,13 +15,11 @@ from __future__ import absolute_import
 
 from operator import setitem
 
-import xml.etree.ElementTree as etree
-import xml.etree.cElementTree as cetree
-
+from xmller import XMLParsingMethods
 from xmller.compat import *
 
 
-def xmliter(source, tagname, use_cElementTree=True):
+def xmliter(source, tagname, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
     """Iterates over a XML document and yields specified tags
     in dictionary form.
 
@@ -43,11 +40,10 @@ def xmliter(source, tagname, use_cElementTree=True):
     :rtype: dict
 
     """
-
-    if use_cElementTree:
-        et = cetree
+    if parsing_method:
+        _is_lxml = True
     else:
-        et = etree
+        _is_lxml = False
 
     output = None
     is_active = False
@@ -57,7 +53,7 @@ def xmliter(source, tagname, use_cElementTree=True):
     current_index = []
 
     # Start iterating over the Element Tree.
-    for event, elem in etree.iterparse(source, events=(b'start', b'end')):
+    for event, elem in parsing_method.iterparse(source, events=(b'start', b'end')):
 
         if (event == 'start') and ((elem.tag == tagname) or is_active):
             # Start of new tag.

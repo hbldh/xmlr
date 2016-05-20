@@ -14,12 +14,45 @@ from __future__ import unicode_literals
 from __future__ import absolute_import
 
 import os
-from xmller import xmlparse
+from xmller import xmlparse, xmliter
 
-filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-    'xmller', 'data', 'google-renewals-all-20080624.xml')
+def document_size(doc):
+    """A storage size estimator.
+
+    :param doc: The document or list of documents to find size of.
+    :type doc: dict or list
+    :return: The size of the input document(s) in bytes.
+    :rtype: int
+
+    """
+    import sys
+    import datetime
+
+    size = 0
+
+    if isinstance(doc, (list, tuple)):
+        size += int(sum([document_size(d) for d in doc]))
+    elif isinstance(doc, dict):
+        for k in doc:
+            size += document_size(doc[k])
+    elif isinstance(doc, (datetime.datetime, float, int, long, basestring)):
+        size += sys.getsizeof(doc)
+    elif doc is None:
+        pass
+    else:
+        raise ValueError("Unsizable object: {0}".format(type(doc)))
+
+    return size
+
+
+filepath = '/home/hbldh/Downloads/google-renewals-all-20080624.xml'
 
 doc = xmlparse(filepath)
+#for d in xmliter(filepath, 'Record'):
+#    pass
+
+#print('Size in MB: {0:.2f} MB'.format(document_size(doc)/1024./1024.))
+
 
 """
 /home/hbldh/.virtualenvs/xmlr/bin/python /home/hbldh/Repos/xmller/example.py

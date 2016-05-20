@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-xmller.parse
-~~~~~~~~~~~~~
+:mod:`iter`
+=======================
 
-:copyright: 2016 by Henrik Blidh <henrik.blidh@nedomkull.com>
+.. moduleauthor:: hbldh <henrik.blidh@swedwise.com>
+Created on 2016-05-20, 12:58
 
 """
 
@@ -21,8 +22,14 @@ import xml.etree.cElementTree as cetree
 from xmller.compat import *
 
 
-def xmlparse(source, use_cElementTree=True):
-    """Parses a XML document into a dictionary.
+def xmliter(source, tagname, use_cElementTree=True):
+    """Iterates over a XML document and yields specified tags
+    in dictionary form.
+
+    This iteration method has a very small memory footprint as compared to
+    the :py:meth:`xmller.xmlparse` since it continuously discards all
+    processed data. It is therefore useful for traversing structured
+    XML where a known tag's members are desired.
 
     Details about how the XML is converted into this dictionary (json)
     representation is described in reference [3] in the README.
@@ -32,7 +39,7 @@ def xmlparse(source, use_cElementTree=True):
     :param bool use_cElementTree: States if :py:class:`xml.etree.cElementTree`
         should be used. If set to `False` :py:class:`xml.etree.ElementTree`
         is used instead.
-    :return: The parsed XML in dictionary representation.
+    :return: The desired tags parsed XML in dictionary representation.
     :rtype: dict
 
     """
@@ -42,18 +49,21 @@ def xmlparse(source, use_cElementTree=True):
     else:
         et = etree
 
-    # This is the output dict.
-    output = {}
+    output = None
+    is_active = False
 
     # Keeping track of the depth and position to store data in.
     current_position = []
     current_index = []
 
     # Start iterating over the Element Tree.
-    for event, elem in et.iterparse(source, events=(b'start', b'end')):
+    for event, elem in etree.iterparse(source, events=(b'start', b'end')):
 
-        if event == 'start':
+        if (event == 'start') and ((elem.tag == tagname) or is_active):
             # Start of new tag.
+            if output is None:
+                output = {}
+                is_active = True
 
             # Extract the current endpoint so add the new element to it.
             tmp = output
@@ -82,7 +92,7 @@ def xmlparse(source, use_cElementTree=True):
 
             # Set the position of the iteration to this element's tag name.
             current_position.append(elem.tag)
-        elif event == 'end':
+        elif (event == 'end') and ((elem.tag == tagname) or is_active):
             # End of a tag.
 
             # Extract the current endpoint's parent so we can handle
@@ -132,13 +142,26 @@ def xmlparse(source, use_cElementTree=True):
                 elif nk == 0:
                     tmp[cp] = None
 
-            # Remove the outermost position and index, since we just finished
-            # handling that element.
-            current_position.pop()
-            current_index.pop()
+            if elem.tag == tagname:
+                # End of our desired tag.
+                # Finish up this document and yield it.
+                current_position = []
+                current_index = []
+                is_active = False
 
-            # Most important of all, release the element's memory allocations
-            # so we actually benefit from the iterative processing!
-            elem.clear()
+                yield output.get(tagname)
 
-    return output
+                output = None
+                elem.clear()
+            else:
+                # Remove the outermost position and index, since we just
+                # finished handling that element.
+                current_position.pop()
+                current_index.pop()
+
+                # Most important of all, release the element's memory
+                # allocations so we actually benefit from the
+                # iterative processing.
+                elem.clear()
+
+

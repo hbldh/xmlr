@@ -4,8 +4,9 @@
 import re
 
 from .parse import xmlparse
+from .iter import xmliter
 
-__all__ = ['xmlparse', ]
+__all__ = ['xmlparse', 'xmliter', ]
 
 # Version information.
 __version__ = '0.1.0'

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MainSection ns="https://example.org">
+  <AnItem>
+    <Year>1923</Year>
+    <MD5Sum>3108ea337254c046f204d01a4bbdcb4d</MD5Sum>
+    <Title>Group A</Title>
+    <Files>
+      <File type="txt">a.txt</File>
+      <File type="bat">b.bat</File>
+      <File type="exe">c.exe</File>
+      <File type="pdf">d.pdf</File>
+      <File type="ai">e.ai</File>
+      <File type="jpeg">f.jpeg</File>
+    </Files>
+  </AnItem>
+  <AnItem>
+    <Year>1988</Year>
+    <MD5Sum>3108ea337254c046f204d01a4bbdcb4d</MD5Sum>
+    <Title>Group B</Title>
+    <Files>
+      <File type="txt">a.txt</File>
+    </Files>
+  </AnItem>
+    <AnItem>
+    <Year>2014</Year>
+    <MD5Sum>3108ea337254c046f204d01a4bbdcb4d</MD5Sum>
+    <Title color="red">Group C</Title>
+    <Files>
+      <File type="exe">c.exe</File>
+      <File type="pdf">d.pdf</File>
+      <File type="ai">e.ai</File>
+      <File type="jpeg">f.jpeg</File>
+    </Files>
+  </AnItem>
+</MainSection>

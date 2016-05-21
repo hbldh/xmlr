@@ -118,3 +118,16 @@ def test_parsing_google_renewal_data_3(parser):
         assert isinstance(doc, dict)
         docs.append(doc)
     assert len(docs) == 64
+
+
+@pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
+                                    XMLParsingMethods.C_ELEMENTTREE,
+                                    XMLParsingMethods.LXML_ELEMENTTREE))
+def test_parsing_test_doc(parser):
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                     'test_doc.xml')
+    docs = []
+    for doc in xmliter(f, 'AnItem', parsing_method=parser):
+        assert isinstance(doc, dict)
+        docs.append(doc)
+    assert len(docs) == 3

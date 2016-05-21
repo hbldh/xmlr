@@ -97,3 +97,15 @@ def test_parsing_google_renewal_data(parser):
     doc = xmlparse(f, parsing_method=parser)
     assert isinstance(doc, dict)
     _walk_test(doc)
+
+
+@pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
+                                    XMLParsingMethods.C_ELEMENTTREE,
+                                    XMLParsingMethods.LXML_ELEMENTTREE))
+def test_parsing_test_doc(parser):
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                     'test_doc.xml')
+    doc = xmlparse(f, parsing_method=parser)
+    assert isinstance(doc, dict)
+    _walk_test(doc)
+

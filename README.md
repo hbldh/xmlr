@@ -55,6 +55,8 @@ The desired parser can also be specified. Available methods are:
 - `LXML_ELEMENTTREE` - Using the `lxml.etree` solution. Requires 
   installation of the `lxml` package.
 
+These can then be used like this:
+
 ```python
 from xmller import xmliter, XMLParsingMethods
 

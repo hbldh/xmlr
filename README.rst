@@ -19,7 +19,7 @@ described in the blog posts `High-performance XML parsing in Python with lxml
 enabling the parsing of very large documents without problems with
 overtaxing the memory.
 
-.. note::
+.. pull-quote::
 
     This package generally provides a one way trip; there is not necessarily
     a bijectional relation with the XML source after parsing.
@@ -54,9 +54,9 @@ are parsed from the document is also present:
 
 The desired parser can also be specified. Available methods are:
 
--  ``ELEMENTTREE`` - Using the ``xml.etree.ElementTree`` solution.
--  ``C_ELEMENTTREE`` - Using the ``xml.etree.cElementTree`` solution.
--  ``LXML_ELEMENTTREE`` - Using the ``lxml.etree`` solution. Requires
+-  ``ELEMENTTREE`` - Using ``xml.etree.ElementTree`` as backend.
+-  ``C_ELEMENTTREE`` - Using ``xml.etree.cElementTree`` as backend.
+-  ``LXML_ELEMENTTREE`` - Using ``lxml.etree`` as backend. Requires
    installation of the ``lxml`` package.
 
 These can then be used like this:
@@ -65,8 +65,7 @@ These can then be used like this:
 
     from xmlr import xmliter, XMLParsingMethods
 
-    for d in xmliter('very_large_record.xml', 'Record',
-            parser=XMLParsingMethods.LXML_ELEMENTTREE):
+    for d in xmliter('very_large_record.xml', 'Record', parser=XMLParsingMethods.LXML_ELEMENTTREE):
         print(d)
 
 No type conversion is performed right now. A value in the output

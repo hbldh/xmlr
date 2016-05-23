@@ -22,6 +22,6 @@ install:
   - "pip install python-coveralls"
   - "pip install lxml"
   - "pip install -e ."
-script: py.test tests/ --cov xmller --cov-report term-missing
+script: py.test tests/ --cov xmlr --cov-report term-missing
 after_success:
   - coveralls

@@ -1,3 +1,11 @@
+v0.3.0 (2016-05-23)
+===================
+- Renaming from `xmller` to `xmlr`.
+- General improvements.
+- Test coverage increased.
+- More documentation.
+- Development Status classifier increased from Alpha to Beta.
+
 v0.2.0 (2016-05-20)
 ===================
 - Bugfixes.

@@ -1,13 +1,14 @@
 [run]
 branch = True
-source = xmller
-include = */xmller/*
+source = xmlr
+include = */xmlr/*
 omit =
     */setup.py
 
 [report]
 exclude_lines =
     except ImportError
+    except Exception
     if is_py3:
 
 

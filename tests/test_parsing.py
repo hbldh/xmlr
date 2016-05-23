@@ -22,27 +22,11 @@ from lxml.etree import XMLSyntaxError
 
 import pytest
 
-from xmller import xmlparse, XMLParsingMethods
-from xmller.compat import *
+from xmlr import xmlparse, XMLParsingMethods
+from xmlr.compat import *
 
-from .fixtures import xmldata_note, xmldata_note_error, \
-    xmldata_cd, xmldata_menu, xmldata_plants
-
-
-def _walk_test(node):
-    for key, dict_item in node.items():
-        if isinstance(dict_item, dict):
-            _walk_test(dict_item)
-        elif isinstance(dict_item, list):
-            for list_item in dict_item:
-                if isinstance(list_item, dict):
-                    _walk_test(list_item)
-                else:
-                    assert isinstance(list_item, basestring) or \
-                           list_item is None
-        else:
-            assert isinstance(dict_item, basestring) or \
-                   dict_item is None
+from .utils import xmldata_note, xmldata_note_error, \
+    xmldata_cd, xmldata_menu, xmldata_plants, walk_test
 
 
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
@@ -51,7 +35,7 @@ def _walk_test(node):
 def test_parsing_note(xmldata_note, parser):
     doc = xmlparse(xmldata_note, parsing_method=parser)
     assert isinstance(doc, dict)
-    _walk_test(doc)
+    walk_test(doc)
 
 
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
@@ -68,7 +52,7 @@ def test_parsing_note_error(xmldata_note_error, parser):
 def test_parsing_cd(xmldata_cd, parser):
     doc = xmlparse(xmldata_cd, parsing_method=parser)
     assert isinstance(doc, dict)
-    _walk_test(doc)
+    walk_test(doc)
 
 
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
@@ -77,7 +61,7 @@ def test_parsing_cd(xmldata_cd, parser):
 def test_parsing_plants(xmldata_plants, parser):
     doc = xmlparse(xmldata_plants, parsing_method=parser)
     assert isinstance(doc, dict)
-    _walk_test(doc)
+    walk_test(doc)
 
 
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
@@ -86,14 +70,27 @@ def test_parsing_plants(xmldata_plants, parser):
 def test_parsing_menu(xmldata_menu, parser):
     doc = xmlparse(xmldata_menu, parsing_method=parser)
     assert isinstance(doc, dict)
-    _walk_test(doc)
+    walk_test(doc)
 
 
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
                                     XMLParsingMethods.C_ELEMENTTREE,
                                     XMLParsingMethods.LXML_ELEMENTTREE))
 def test_parsing_google_renewal_data(parser):
-    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'google-renewals-subset-20080624.xml')
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                     'google-renewals-subset-20080624.xml')
     doc = xmlparse(f, parsing_method=parser)
     assert isinstance(doc, dict)
-    _walk_test(doc)
+    walk_test(doc)
+
+
+@pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
+                                    XMLParsingMethods.C_ELEMENTTREE,
+                                    XMLParsingMethods.LXML_ELEMENTTREE))
+def test_parsing_test_doc(parser):
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                     'test_doc.xml')
+    doc = xmlparse(f, parsing_method=parser)
+    assert isinstance(doc, dict)
+    walk_test(doc)
+

@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-xmller.compat
+xmlr.compat
 ~~~~~~~~~~~~~~
 
-xmller compatiblity module.
+xmlr compatiblity module.
 
 """
 

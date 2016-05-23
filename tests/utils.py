@@ -21,6 +21,8 @@ import tempfile
 
 import pytest
 
+from xmlr.compat import *
+
 if sys.version_info[0] > 2:
     from urllib.request import urlopen
 else:
@@ -122,3 +124,17 @@ def xmldata_menu(request):
 
     return f.name
 
+
+def walk_test(node):
+    for key, dict_item in node.items():
+        assert isinstance(key, unicode)
+        if isinstance(dict_item, dict):
+            walk_test(dict_item)
+        elif isinstance(dict_item, list):
+            for list_item in dict_item:
+                if isinstance(list_item, dict):
+                    walk_test(list_item)
+                else:
+                    assert isinstance(list_item, unicode) or list_item is None
+        else:
+            assert isinstance(dict_item, unicode) or dict_item is None

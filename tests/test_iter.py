@@ -22,11 +22,11 @@ from lxml.etree import XMLSyntaxError
 
 import pytest
 
-from xmller import xmliter, XMLParsingMethods
-from xmller.compat import *
+from xmlr import xmliter, XMLParsingMethods
+from xmlr.compat import *
 
-from .fixtures import xmldata_note, xmldata_note_error, \
-    xmldata_cd, xmldata_menu, xmldata_plants
+from .utils import xmldata_note, xmldata_note_error, \
+    xmldata_cd, xmldata_menu, xmldata_plants, walk_test
 
 
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
@@ -37,6 +37,7 @@ def test_parsing_note(xmldata_note, parser):
     for doc in xmliter(xmldata_note, 'note', parsing_method=parser):
         assert isinstance(doc, dict)
         docs.append(doc)
+        walk_test(doc)
     assert len(docs)
 
 
@@ -57,6 +58,7 @@ def test_parsing_cd(xmldata_cd, parser):
     for doc in xmliter(xmldata_cd, 'CD', parsing_method=parser):
         assert isinstance(doc, dict)
         docs.append(doc)
+        walk_test(doc)
     assert len(docs) == 26
 
 
@@ -68,6 +70,7 @@ def test_parsing_plants(xmldata_plants, parser):
     for doc in xmliter(xmldata_plants, 'PLANT', parsing_method=parser):
         assert isinstance(doc, dict)
         docs.append(doc)
+        walk_test(doc)
     assert len(docs) == 36
 
 
@@ -79,7 +82,9 @@ def test_parsing_menu(xmldata_menu, parser):
     for doc in xmliter(xmldata_menu, 'food', parsing_method=parser):
         assert isinstance(doc, dict)
         docs.append(doc)
+        walk_test(doc)
     assert len(docs) == 5
+
 
 @pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
                                     XMLParsingMethods.C_ELEMENTTREE,
@@ -91,6 +96,7 @@ def test_parsing_google_renewal_data_1(parser):
     for doc in xmliter(f, 'Record', parsing_method=parser):
         assert isinstance(doc, dict)
         docs.append(doc)
+        walk_test(doc)
     assert len(docs) == 4
 
 
@@ -104,6 +110,7 @@ def test_parsing_google_renewal_data_2(parser):
     for doc in xmliter(f, 'Contrib', parsing_method=parser):
         assert isinstance(doc, dict)
         docs.append(doc)
+        walk_test(doc)
     assert len(docs) == 2
 
 
@@ -117,4 +124,19 @@ def test_parsing_google_renewal_data_3(parser):
     for doc in xmliter(f, 'Copyright', parsing_method=parser):
         assert isinstance(doc, dict)
         docs.append(doc)
+        walk_test(doc)
     assert len(docs) == 64
+
+
+@pytest.mark.parametrize("parser", (XMLParsingMethods.ELEMENTTREE,
+                                    XMLParsingMethods.C_ELEMENTTREE,
+                                    XMLParsingMethods.LXML_ELEMENTTREE))
+def test_parsing_test_doc(parser):
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                     'test_doc.xml')
+    docs = []
+    for doc in xmliter(f, 'AnItem', parsing_method=parser):
+        assert isinstance(doc, dict)
+        docs.append(doc)
+        walk_test(doc)
+    assert len(docs) == 3

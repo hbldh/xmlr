@@ -1,7 +1,7 @@
-# xmller
+# xmlr
 
-[![Build Status](https://travis-ci.org/hbldh/xmller.svg?branch=master)](https://travis-ci.org/hbldh/xmller)
-[![Coverage Status](https://coveralls.io/repos/github/hbldh/xmller/badge.svg?branch=master)](https://coveralls.io/github/hbldh/xmller?branch=master)
+[![Build Status](https://travis-ci.org/hbldh/xmlr.svg?branch=master)](https://travis-ci.org/hbldh/xmlr)
+[![Coverage Status](https://coveralls.io/repos/github/hbldh/xmlr/badge.svg?branch=master)](https://coveralls.io/github/hbldh/xmlr?branch=master)
 
 It can be problematic to handle large XML files (>> 10 MB) and using the `xml` module 
 in Python directly leads to huge memory overheads. Most often, these large XML 
@@ -10,7 +10,7 @@ intrinsic need to be stored in XML.
 
 This package provides iterative methods for dealing with them, reading the 
 XML documents into Python dict representation instead, according to the 
-methodology specified in \[3\]. `xmller` is inspired by the
+methodology specified in \[3\]. `xmlr` is inspired by the
 solutions described in \[1\] and \[2\], enabling the parsing of very 
 large documents without problems with overtaxing the memory.
 
@@ -23,7 +23,7 @@ large documents without problems with overtaxing the memory.
 ## Installation
 
 ```
-pip install git+https://www.github.com/hbldh/xmller
+pip install git+https://www.github.com/hbldh/xmlr
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ pip install git+https://www.github.com/hbldh/xmller
 To parse an entire document, use the `xmlparse` method:
 
 ```python
-from xmller import xmlparse
+from xmlr import xmlparse
 
 doc = xmlparse('very_large_doc.xml')
 
@@ -41,7 +41,7 @@ An iterator, `xmliter`, yielding elements of a specified type as they are parsed
 the document is also present:
 
 ```python
-from xmller import xmliter
+from xmlr import xmliter
 
 for d in xmliter('very_large_record.xml', 'Record'):
     print(d)
@@ -58,7 +58,7 @@ The desired parser can also be specified. Available methods are:
 These can then be used like this:
 
 ```python
-from xmller import xmliter, XMLParsingMethods
+from xmlr import xmliter, XMLParsingMethods
 
 for d in xmliter('very_large_record.xml', 'Record', 
         parser=XMLParsingMethods.LXML_ELEMENTTREE):
@@ -77,17 +77,16 @@ Tests are run with `pytest`:
 
 ```bash
 $ py.test tests/
-
 ============================= test session starts ==============================
-platform linux2 -- Python 2.7.11+, pytest-2.9.1, py-1.4.31, pluggy-0.3.1
-rootdir: /home/hbldh/Repos/xmller, inifile: 
-collected 44 items 
+platform linux2 -- Python 2.7.6, pytest-2.9.1, py-1.4.31, pluggy-0.3.1
+rootdir: /home/hbldh/Repos/xmlr, inifile: 
+collected 50 items 
 
-tests/test_iter.py ........................
+tests/test_iter.py ...........................
 tests/test_methods.py ..
-tests/test_parsing.py ..................
+tests/test_parsing.py .....................
 
-========================== 44 passed in 2.70 seconds ===========================
+========================== 50 passed in 0.50 seconds ===========================
 ```
 
 The tests fetches some XML documents from 

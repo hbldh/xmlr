@@ -15,7 +15,7 @@ from __future__ import unicode_literals
 from __future__ import absolute_import
 
 import os
-from xmller import xmlparse, xmliter, XMLParsingMethods
+from xmlr import xmlparse, xmliter, XMLParsingMethods
 
 def document_size(doc):
     """A storage size estimator.
@@ -57,38 +57,38 @@ filepath = '/home/hbldh/Downloads/google-renewals-all-20080624.xml'
 
 # xmlparse
 
-print ('xmller.xmlparse using xml.etree.ElementTree')
+print ('xmlr.xmlparse using xml.etree.ElementTree')
 doc = xmlparse("/home/hbldh/Downloads/google-renewals-all-20080624.xml", XMLParsingMethods.ELEMENTTREE)
 print('Size in MB: {0:.2f} MB'.format(document_size(doc)/1024./1024.))
 del doc
 
-print ('xmller.xmlparse using xml.etree.cElementTree')
+print ('xmlr.xmlparse using xml.etree.cElementTree')
 doc = xmlparse("/home/hbldh/Downloads/google-renewals-all-20080624.xml", XMLParsingMethods.C_ELEMENTTREE)
 print('Size in MB: {0:.2f} MB'.format(document_size(doc)/1024./1024.))
 del doc
 
-print ('xmller.xmlparse using lxml.etree')
+print ('xmlr.xmlparse using lxml.etree')
 doc = xmlparse("/home/hbldh/Downloads/google-renewals-all-20080624.xml", XMLParsingMethods.LXML_ELEMENTTREE)
 print('Size in MB: {0:.2f} MB'.format(document_size(doc)/1024./1024.))
 del doc
 
 # xmliter
 
-print ('xmller.xmliter using xml.etree.ElementTree')
+print ('xmlr.xmliter using xml.etree.ElementTree')
 docs = []
 for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", XMLParsingMethods.ELEMENTTREE):
     docs.append(d)
 print('Size in MB: {0:.2f} MB'.format(document_size(docs)/1024./1024.))
 del docs
 
-print ('xmller.xmliter using xml.etree.cElementTree')
+print ('xmlr.xmliter using xml.etree.cElementTree')
 docs = []
 for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", XMLParsingMethods.C_ELEMENTTREE):
     docs.append(d)
 print('Size in MB: {0:.2f} MB'.format(document_size(docs)/1024./1024.))
 del docs
 
-print ('xmller.xmliter using lxml.etree')
+print ('xmlr.xmliter using lxml.etree')
 docs = []
 for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", XMLParsingMethods.LXML_ELEMENTTREE):
     docs.append(d)

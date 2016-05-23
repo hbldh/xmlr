@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-xmller.ĩter
+xmlr.ĩter
 ~~~~~~~~~~~
 
 :copyright: 2016 by Henrik Blidh <henrik.blidh@nedomkull.com>
@@ -24,7 +24,7 @@ def xmliter(source, tagname, parsing_method=XMLParsingMethods.C_ELEMENTTREE, **k
     in dictionary form.
 
     This iteration method has a very small memory footprint as compared to
-    the :py:meth:`xmller.xmlparse` since it continuously discards all
+    the :py:meth:`xmlr.xmlparse` since it continuously discards all
     processed data. It is therefore useful for traversing structured
     XML where a known tag's members are desired.
 
@@ -35,7 +35,7 @@ def xmliter(source, tagname, parsing_method=XMLParsingMethods.C_ELEMENTTREE, **k
         or a file-like object (with `read` attribute) containing an XML.
     :param str tagname: The name of the tag type to extract and iterate over.
     :param parsing_method: ElementTree implementation.
-        See :py:mod:`xmller.methods`. Uses the
+        See :py:mod:`xmlr.methods`. Uses the
         :py:class:`xml.etree.cElementTree` as default.
     :return: The desired tags parsed XML in dictionary representation.
     :rtype: dict

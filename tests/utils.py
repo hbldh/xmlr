@@ -21,7 +21,7 @@ import tempfile
 
 import pytest
 
-from xmller.compat import *
+from xmlr.compat import *
 
 if sys.version_info[0] > 2:
     from urllib.request import urlopen

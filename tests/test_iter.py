@@ -22,8 +22,8 @@ from lxml.etree import XMLSyntaxError
 
 import pytest
 
-from xmller import xmliter, XMLParsingMethods
-from xmller.compat import *
+from xmlr import xmliter, XMLParsingMethods
+from xmlr.compat import *
 
 from .utils import xmldata_note, xmldata_note_error, \
     xmldata_cd, xmldata_menu, xmldata_plants, walk_test

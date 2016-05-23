@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-xmller.methods
+xmlr.methods
 ~~~~~~~~~~~~~~
 
 :copyright: 2016 by Henrik Blidh <henrik.blidh@nedomkull.com>
@@ -42,7 +42,7 @@ class XMLParsingMethods(object):
 
     .. code:: python
 
-        from xmller import xmliter, XMLParsingMethods
+        from xmlr import xmliter, XMLParsingMethods
 
         for d in xmliter('very_large_record.xml', 'Record',
                 parser=XMLParsingMethods.LXML_ELEMENTTREE):
@@ -56,7 +56,7 @@ class XMLParsingMethods(object):
 
     .. code:: python
 
-        In [1]: from xmller import XMLParsingMethods
+        In [1]: from xmlr import XMLParsingMethods
 
         In [2]: XMLParsingMethods.cElementTree_available
         Out[2]: True

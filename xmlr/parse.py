@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-xmller.parse
+xmlr.parse
 ~~~~~~~~~~~~~
 
 :copyright: 2016 by Henrik Blidh <henrik.blidh@nedomkull.com>
@@ -28,7 +28,7 @@ def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE, **kwargs):
     :param str,file-like source: Either the path to a XML document to parse
         or a file-like object (with `read` attribute) containing an XML.
     :param parsing_method: ElementTree implementation.
-        See :py:mod:`xmller.methods`. Uses the
+        See :py:mod:`xmlr.methods`. Uses the
         :py:class:`xml.etree.cElementTree` as default.
     :return: The parsed XML in dictionary representation.
     :rtype: dict

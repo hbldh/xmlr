@@ -1,7 +1,7 @@
 [run]
 branch = True
-source = xmller
-include = */xmller/*
+source = xmlr
+include = */xmlr/*
 omit =
     */setup.py
 

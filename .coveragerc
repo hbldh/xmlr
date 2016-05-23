@@ -8,6 +8,7 @@ omit =
 [report]
 exclude_lines =
     except ImportError
+    except Exception
     if is_py3:
 
 

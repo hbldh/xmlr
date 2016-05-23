@@ -19,7 +19,7 @@ from .methods import XMLParsingMethods
 from .compat import *
 
 
-def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
+def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE, **kwargs):
     """Parses a XML document into a dictionary.
 
     Details about how the XML is converted into this dictionary (json)
@@ -48,7 +48,7 @@ def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
 
     # Start iterating over the Element Tree.
     for event, elem in parsing_method.iterparse(
-            source, events=(str('start'), str('end'))):
+            source, events=(str('start'), str('end')), **kwargs):
         if event == 'start':
             # Start of new tag.
 
@@ -59,10 +59,11 @@ def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
                 if ci:
                     tmp = tmp[ci]
 
+            this_tag_name = unicode(elem.tag)
             # If it is a previously unseen tag, create a new key and
             # stick an empty dict there. Set index of this level to None.
-            if elem.tag not in tmp:
-                tmp[elem.tag] = {}
+            if this_tag_name not in tmp:
+                tmp[this_tag_name] = {}
                 current_index.append(None)
             else:
                 # The tag name already exists. This means that we have to change
@@ -70,15 +71,15 @@ def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
                 # been done already and add an empty dict to the end of that
                 # list. If it already is a list, just add an new dict and update
                 # the current index.
-                if isinstance(tmp[elem.tag], list):
-                    current_index.append(len(tmp[elem.tag]))
-                    tmp[elem.tag].append({})
+                if isinstance(tmp[this_tag_name], list):
+                    current_index.append(len(tmp[this_tag_name]))
+                    tmp[this_tag_name].append({})
                 else:
-                    tmp[elem.tag] = [tmp[elem.tag], {}]
+                    tmp[this_tag_name] = [tmp[this_tag_name], {}]
                     current_index.append(1)
 
             # Set the position of the iteration to this element's tag name.
-            current_position.append(elem.tag)
+            current_position.append(this_tag_name)
         elif event == 'end':
             # End of a tag.
 
@@ -97,15 +98,15 @@ def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
             if ci:
                 setfcn = lambda x: setitem(tmp[cp], ci, x)
                 for attr_name, attr_value in elem.attrib.items():
-                    tmp[cp][ci]["@{0}".format(attr_name)] = attr_value
+                    tmp[cp][ci]["@{0}".format(attr_name)] = unicode(attr_value)
             else:
                 setfcn = lambda x: setitem(tmp, cp, x)
                 for attr_name, attr_value in elem.attrib.items():
-                    tmp[cp]["@{0}".format(attr_name)] = attr_value
+                    tmp[cp]["@{0}".format(attr_name)] = unicode(attr_value)
 
             # If there is any text in the tag, add it here.
             if elem.text and elem.text.strip():
-                setfcn({'#text': elem.text.strip()})
+                setfcn({'#text': unicode(elem.text.strip())})
 
             # Handle special cases:
             # 1) when the tag only harbours text, replace the dict content with
@@ -114,13 +115,10 @@ def xmlparse(source, parsing_method=XMLParsingMethods.C_ELEMENTTREE):
             #    is set to None
             # These are detailed in reference [3] in README.
             if ci:
-                if tmp[cp][ci]:
-                    nk = len(tmp[cp][ci].keys())
-                    if nk == 1 and "#text" in tmp[cp][ci]:
-                        tmp[cp][ci] = tmp[cp][ci]["#text"]
-                    elif nk == 0:
-                        tmp[cp][ci] = None
-                else:
+                nk = len(tmp[cp][ci].keys())
+                if nk == 1 and "#text" in tmp[cp][ci]:
+                    tmp[cp][ci] = tmp[cp][ci]["#text"]
+                elif nk == 0:
                     tmp[cp][ci] = None
             else:
                 nk = len(tmp[cp].keys())

@@ -19,8 +19,10 @@ from xmller import XMLParsingMethods
 
 
 def test_c_elementtree_available():
-    assert XMLParsingMethods.cElementTree_available
+    is_available = XMLParsingMethods.cElementTree_available
+    assert is_available
 
 
 def test_lxml_available():
-    assert XMLParsingMethods.cElementTree_available
+    is_available = XMLParsingMethods.lxml_available
+    assert is_available

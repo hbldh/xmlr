@@ -43,7 +43,7 @@ setup(
     author_email='henrik.blidh@nedomkull.com',
     url='https://github.com/hbldh/xmlr',
     description='XML parsing package for very large files',
-    long_description=read('README.md'),
+    long_description=read('README.rst') + '\n\n' + read('HISTORY.rst'),
     license='MIT',
     keywords=['XML', 'parsing', 'json', 'conversion'],
     classifiers=[

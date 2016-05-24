@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-:mod:`fixtures`
-=======================
+tests.utils
+~~~~~~~~~~~
 
-.. moduleauthor:: hbldh <henrik.blidh@swedwise.com>
-Created on 2016-05-20, 15:48
+:copyright: 2016 by Henrik Blidh <henrik.blidh@nedomkull.com>
 
 """
 

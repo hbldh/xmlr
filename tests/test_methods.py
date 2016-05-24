@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-:mod:`test_methods`
-==================
+tests.test_methods
+~~~~~~~~~~~~~~~~~~
 
-Created by hbldh <henrik.blidh@nedomkull.com>
-Created on 2016-05-20
+:copyright: 2016 by Henrik Blidh <henrik.blidh@nedomkull.com>
 
 """
 

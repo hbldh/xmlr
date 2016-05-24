@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-:mod:`test_parsing`
-=======================
+tests.test_parsing
+~~~~~~~~~~~~~~~~~~
 
-.. moduleauthor:: hbldh <henrik.blidh@swedwise.com>
-Created on 2016-05-17, 14:01
+:copyright: 2016 by Henrik Blidh <henrik.blidh@nedomkull.com>
 
 """
 

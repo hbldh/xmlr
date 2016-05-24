@@ -17,6 +17,7 @@ from __future__ import absolute_import
 import os
 from xmlr import xmlparse, xmliter, XMLParsingMethods
 
+
 def document_size(doc):
     """A storage size estimator.
 
@@ -32,11 +33,20 @@ def document_size(doc):
     size = 0
 
     if isinstance(doc, (list, tuple)):
+        # Add the base size the list or tuple.
+        size += sys.getsizeof(type(doc)())
+        # Iterate over all elements and sum their sizes.
         size += int(sum([document_size(d) for d in doc]))
     elif isinstance(doc, dict):
+        # Add the base size of a dict.
+        size += sys.getsizeof(type(doc)())
         for k in doc:
+            # Add size of key.
+            size += document_size(k)
+            # Add size of value of key.
             size += document_size(doc[k])
     elif isinstance(doc, (datetime.datetime, float, int, long, basestring)):
+        # Base type which can be evaluated with sys.getsizeof.
         size += sys.getsizeof(doc)
     elif doc is None:
         pass
@@ -47,7 +57,6 @@ def document_size(doc):
 
 
 filepath = '/home/hbldh/Downloads/google-renewals-all-20080624.xml'
-#print('Size in MB: {0:.2f} MB'.format(document_size(doc)/1024./1024.))
 
 
 """
@@ -67,33 +76,33 @@ doc = xmlparse("/home/hbldh/Downloads/google-renewals-all-20080624.xml", XMLPars
 print('Size in MB: {0:.2f} MB'.format(document_size(doc)/1024./1024.))
 del doc
 
-print ('xmlr.xmlparse using lxml.etree')
-doc = xmlparse("/home/hbldh/Downloads/google-renewals-all-20080624.xml", XMLParsingMethods.LXML_ELEMENTTREE)
-print('Size in MB: {0:.2f} MB'.format(document_size(doc)/1024./1024.))
-del doc
-
-# xmliter
-
-print ('xmlr.xmliter using xml.etree.ElementTree')
-docs = []
-for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", XMLParsingMethods.ELEMENTTREE):
-    docs.append(d)
-print('Size in MB: {0:.2f} MB'.format(document_size(docs)/1024./1024.))
-del docs
-
-print ('xmlr.xmliter using xml.etree.cElementTree')
-docs = []
-for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", XMLParsingMethods.C_ELEMENTTREE):
-    docs.append(d)
-print('Size in MB: {0:.2f} MB'.format(document_size(docs)/1024./1024.))
-del docs
-
-print ('xmlr.xmliter using lxml.etree')
-docs = []
-for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", XMLParsingMethods.LXML_ELEMENTTREE):
-    docs.append(d)
-print('Size in MB: {0:.2f} MB'.format(document_size(docs)/1024./1024.))
-del docs
+# print ('xmlr.xmlparse using lxml.etree')
+# doc = xmlparse("/home/hbldh/Downloads/google-renewals-all-20080624.xml", XMLParsingMethods.LXML_ELEMENTTREE)
+# print('Size in MB: {0:.2f} MB'.format(document_size(doc)/1024./1024.))
+# del doc
+#
+# # xmliter
+#
+# print ('xmlr.xmliter using xml.etree.ElementTree')
+# docs = []
+# for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", XMLParsingMethods.ELEMENTTREE):
+#     docs.append(d)
+# print('Size in MB: {0:.2f} MB'.format(document_size(docs)/1024./1024.))
+# del docs
+#
+# print ('xmlr.xmliter using xml.etree.cElementTree')
+# docs = []
+# for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", XMLParsingMethods.C_ELEMENTTREE):
+#     docs.append(d)
+# print('Size in MB: {0:.2f} MB'.format(document_size(docs)/1024./1024.))
+# del docs
+#
+# print ('xmlr.xmliter using lxml.etree')
+# docs = []
+# for d in xmliter("/home/hbldh/Downloads/google-renewals-all-20080624.xml", "Record", XMLParsingMethods.LXML_ELEMENTTREE):
+#     docs.append(d)
+# print('Size in MB: {0:.2f} MB'.format(document_size(docs)/1024./1024.))
+# del docs
 
 # Straight parsing
 

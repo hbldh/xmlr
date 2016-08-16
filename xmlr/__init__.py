@@ -10,7 +10,7 @@ from .methods import XMLParsingMethods
 __all__ = ['xmlparse', 'xmliter', 'XMLParsingMethods']
 
 # Version information.
-__version__ = '0.2.1'
+__version__ = '0.3.1'
 version = __version__  # backwards compatibility name
 try:
     version_info = [int(x) if x.isdigit() else x for x in

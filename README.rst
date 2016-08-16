@@ -29,7 +29,7 @@ Installation
 
 ::
 
-    pip install git+https://www.github.com/hbldh/xmlr
+    pip install xmlr
 
 Usage
 -----

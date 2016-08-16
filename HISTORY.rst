@@ -1,3 +1,7 @@
+v0.3.1 (2016-08-16)
+===================
+- Made available on PyPi
+
 v0.3.0 (2016-05-23)
 ===================
 - Renaming from `xmller` to `xmlr`.

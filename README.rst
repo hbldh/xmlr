@@ -3,6 +3,10 @@ xmlr
 
 |Build Status| |Coverage Status|
 
+**If you find this repo and consider using it, reconsider using** 
+`xmltodict <https://github.com/martinblech/xmltodict>`_ 
+**instead since it is more feature complete, well tested and much more actively maintained!**
+
 It can be problematic to handle large XML files (>> 10 MB) and using the
 ``xml`` module in Python directly leads to huge memory overheads. Most
 often, these large XML files are pure data files, storing highly

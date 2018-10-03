@@ -69,7 +69,7 @@ These can then be used like this:
 
     from xmlr import xmliter, XMLParsingMethods
 
-    for d in xmliter('very_large_record.xml', 'Record', parser=XMLParsingMethods.LXML_ELEMENTTREE):
+    for d in xmliter('very_large_record.xml', 'Record', parsing_method=XMLParsingMethods.LXML_ELEMENTTREE):
         print(d)
 
 No type conversion is performed right now. A value in the output
